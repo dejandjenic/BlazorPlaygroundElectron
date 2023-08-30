@@ -1,0 +1,21 @@
+﻿@page "/jwt"
+@using System.Text.Json;
+
+<PageTitleWithH1>JWT</PageTitleWithH1>
+
+<Editor Action1Text="Parse"
+        Action2Enabled=false
+        SwapEnabled=false
+        Action1=@(s =>
+        {
+        try{
+            var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler().ReadJwtToken(s);
+            var options = new JsonSerializerOptions() { WriteIndented = true };
+            return JsonSerializer.Serialize( token.Payload.Claims,options);
+        }
+        catch(Exception ex){
+            return ex.Message;
+        }
+        })
+        Action2=@(s => System.Text.RegularExpressions.Regex.Unescape(s))>
+</Editor>

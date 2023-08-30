@@ -1,0 +1,11 @@
+﻿@page "/base64"
+@using System.Web
+
+<PageTitleWithH1>Base64 Encode</PageTitleWithH1>
+
+<Editor
+    Action1Text="Encode"
+    Action2Text="Decode"
+    Action1=@(s => Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(s)))
+    Action2=@(s => System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(s)))>
+</Editor>

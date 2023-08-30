@@ -1,0 +1,17 @@
+﻿@page "/guid"
+
+<PageTitleWithH1>Guid</PageTitleWithH1>
+
+<Editor
+    Action1Text="Generate"
+    Action2Enabled=false
+    SwapEnabled=false
+    DefaultText="10"
+    Action1=@(s =>  
+    {
+        var count = int.TryParse(s,out var i)?i:10;
+        count=Math.Max(1,count);
+        count=Math.Min(100,count);
+        return string.Join("\r\n",Enumerable.Range(1,count).Select(x=> System.Guid.NewGuid().ToString()));
+    })>
+</Editor>

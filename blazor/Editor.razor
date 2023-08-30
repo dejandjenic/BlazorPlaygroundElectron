@@ -1,0 +1,69 @@
+﻿@using System.Web
+
+<textarea  rows="15" cols="40" style="width:100%" @bind="ModelObject.Source"></textarea>
+<button class="btn btn-primary" @onclick="Action1Handler">@Action1Text</button>
+@if (Action2Enabled)
+{
+    <button class="btn btn-primary" @onclick="Action2Handler">@Action2Text</button>
+}
+@if (SwapEnabled)
+{
+    <button class="btn btn-primary" @onclick="Swap"><i class="bi bi-arrow-down-up"></i> Swap</button>
+}
+<textarea  rows="15" cols="40" style="width:100%" @bind="ModelObject.Destination"></textarea>
+
+
+
+@code {
+
+    class Model
+    {
+        public string Source { get; set; }
+        public string Destination { get; set; }
+    }
+
+    private Model ModelObject = new();
+
+    [Parameter]
+    public string Action1Text { get; set; }
+    [Parameter]
+    public string Action2Text { get; set; }
+
+    [Parameter]
+    public Func<string, string> Action1 { get; set; }
+
+    [Parameter]
+    public Func<string, string> Action2 { get; set; }
+
+    [Parameter]
+    public bool Action2Enabled { get; set; } = true;
+    [Parameter]
+    public bool SwapEnabled { get; set; } = true;
+
+    [Parameter]
+    public string DefaultText { get; set; }
+
+    private void Action1Handler()
+    {
+        ModelObject.Destination = Action1(ModelObject.Source);
+    }
+
+    private void Action2Handler()
+    {
+        ModelObject.Destination = Action2(ModelObject.Source);
+    }
+
+    private void Swap()
+    {
+        (ModelObject.Destination, ModelObject.Source) = (ModelObject.Source, ModelObject.Destination);
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        ModelObject = new Model()
+        {
+                Source = DefaultText
+        };
+    }
+}

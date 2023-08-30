@@ -1,0 +1,21 @@
+﻿@page "/json"
+@using System.Web
+@using System.Text.Json
+@using System.Dynamic
+
+<PageTitleWithH1>Json beautify</PageTitleWithH1>
+
+<Editor
+    Action1Text="Beautify"
+    Action2Text="Uglify"
+    Action1=@(json => {
+                       var parsedJson = JsonSerializer.Deserialize<ExpandoObject>(json);
+                       var options = new JsonSerializerOptions() { WriteIndented = true };
+                       return JsonSerializer.Serialize(parsedJson, options);
+            })
+    Action2=@(json => {
+                          var parsedJson = JsonSerializer.Deserialize<ExpandoObject>(json);
+                          var options = new JsonSerializerOptions() { WriteIndented = false };
+                          return JsonSerializer.Serialize(parsedJson, options);
+            })>
+</Editor>

@@ -1,0 +1,40 @@
+{
+  "name": "electron-app",
+  "version": "1.0.5",
+  "description": "BlazorPlayground electron app",
+  "main": "main.js",
+  "repository":"https://github.com/dejandjenic/BlazorPlaygroundElectron.git",
+  "scripts": {
+    "start": "electron-forge start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
+  },
+  "author": "dejandjenic@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.4.1",
+    "@electron-forge/maker-deb": "^6.4.1",
+    "@electron-forge/maker-rpm": "^6.4.1",
+    "@electron-forge/maker-squirrel": "^6.4.1",
+    "@electron-forge/maker-zip": "^6.4.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.4.1",
+    "@electron-forge/publisher-github": "^6.4.1",
+    "electron": "^26.1.0",
+    "electron-builder": "^24.6.3"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "update-electron-app": "^2.0.1"
+  },
+  "build": {
+    "publish": [{
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/dejandjenic/BlazorPlaygroundElectron.git",
+        "directory": "electron-app"
+      }
+    }]
+  }
+}

@@ -1,0 +1,11 @@
+﻿@page "/html"
+@using System.Web
+
+<PageTitleWithH1>Html Encode</PageTitleWithH1>
+
+<Editor
+    Action1Text="Encode"
+    Action2Text="Decode"
+    Action1=@(s => HttpUtility.HtmlEncode(s))
+    Action2=@(s => HttpUtility.HtmlDecode(s))>
+</Editor>

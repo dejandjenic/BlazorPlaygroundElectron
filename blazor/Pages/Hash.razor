@@ -1,0 +1,32 @@
+﻿@page "/hash"
+@using System.Security.Cryptography
+
+<PageTitleWithH1>Hash</PageTitleWithH1>
+
+<Editor
+    Action1Text="SHA256 hash"
+    Action2Enabled=false
+    SwapEnabled=false
+    Action1=@(s =>  CreateHash(s))>
+</Editor>
+
+@code
+{
+    public static string CreateHash(ReadOnlySpan<char> input)
+    {
+        var encoding = System.Text.Encoding.UTF8;
+        var inputByteCount = encoding.GetByteCount(input);
+        using var sha256 = new SHA256Managed();
+
+        Span<byte> bytes = inputByteCount < 1024
+            ? stackalloc byte[inputByteCount]
+            : new byte[inputByteCount];
+        Span<byte> destination = stackalloc byte[sha256.HashSize / 8];
+
+        encoding.GetBytes(input, bytes);
+
+        sha256.TryComputeHash(bytes, destination, out int _bytesWritten);
+
+        return BitConverter.ToString(destination.ToArray()).ToLower().Replace("-","");
+    }
+}

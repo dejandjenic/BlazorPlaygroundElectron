@@ -1,0 +1,10 @@
+﻿@page "/escape"
+
+<PageTitleWithH1>Escape</PageTitleWithH1>
+
+<Editor
+    Action1Text="Escape"
+    Action2Text="Unescape"
+    Action1=@(s =>  System.Text.RegularExpressions.Regex.Escape(s))
+    Action2=@(s => System.Text.RegularExpressions.Regex.Unescape(s))>
+</Editor>
