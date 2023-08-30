@@ -1,0 +1,53 @@
+name: Blazor Playground
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:  
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.0'
+
+    
+      - name: Publish
+        run: dotnet publish blazor/BlazorPlayground.csproj -c Release -o release
+      - name: Install ReplaceInFile
+        run: dotnet tool install --tool-path . ReplaceInFile
+      - name: Modify original file index.html
+        run: ./replaceinfile "release/wwwroot/index.html" '<base href=\"/\" />' ""
+      - name: Modify original file index.html
+        run: ./replaceinfile "release/wwwroot/index.html" '<script src=\"_framework/blazor.webassembly.js\"></script>' ""
+      - name: Modify original file index.html
+        run: ./replaceinfile "release/wwwroot/index.html" "</body>" '<script src=\"loadBlazor.js\"></script></body>'
+      - name: Copy blazor output
+        run: cp -r ./release/wwwroot/* ./electron-app/
+        
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Restore npm dependencies
+        run: npm ci
+        working-directory: ./electron-app/
+
+      - name: Publish app
+        run: npm run publish
+        working-directory: ./electron-app/
+        if: github.ref_type == 'tag'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
