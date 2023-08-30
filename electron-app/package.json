@@ -1,6 +1,6 @@
 {
   "name": "electron-app",
-  "version": "1.0.5",
+  "version": "1.0.0",
   "description": "BlazorPlayground electron app",
   "main": "main.js",
   "repository":"https://github.com/dejandjenic/BlazorPlaygroundElectron.git",
